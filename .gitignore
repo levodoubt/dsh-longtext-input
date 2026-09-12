@@ -1,0 +1,16 @@
+# Dependencies
+node_modules/
+
+# Build output (this plugin ships hand-written plain JS under lib/, so nothing
+# here is generated — kept for anyone who later adds a bundler)
+dist/
+*.tsbuildinfo
+
+# Editor / OS noise
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Local scratch used by scripts/check.mjs
+*.log

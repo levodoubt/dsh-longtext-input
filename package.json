@@ -1,0 +1,44 @@
+{
+  "name": "dsh-longtext-input",
+  "version": "0.1.0",
+  "description": "DeepSeek Harness 长文本输入插件：在输入框工具栏加一个「长文本」按钮，弹出编辑器，保存后把正文写入工作区 .dsh-longtext/ 下的 md 文件，并把 @ 引用注入输入框。用于超长粘贴（报错日志、会议记录、文档）而不让聊天界面变乱。",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "default": "./lib/client.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web"
+    },
+    "compatibility": {
+      "dsh": ">=0.1.5-rc.1"
+    }
+  },
+  "files": [
+    "lib",
+    "cordis.patch.yml",
+    "README.md"
+  ],
+  "keywords": [
+    "deepseek",
+    "deepseek-harness",
+    "dsh",
+    "dsh-plugin",
+    "client-plugin",
+    "longtext"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  }
+}

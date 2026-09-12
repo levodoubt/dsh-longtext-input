@@ -1,0 +1,10 @@
+# dsh-longtext-input bundle patch: inserts one dual-face plugin row into the web
+# profile roster.
+#
+# The row is a bare plugin addressed by package name: the node half (exports
+# ".") runs in the host process and owns the file-writing HTTP route, while the
+# `dsh.client` declaration in package.json makes the browser half (exports
+# "./client", served at /plugins/longtext-input/client.js) load in the web GUI.
+- insert:
+    - id: longtext-input
+      name: dsh-longtext-input
