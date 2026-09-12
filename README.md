@@ -2,7 +2,9 @@
 
 > DeepSeek Harness 长文本输入插件：把超长内容写进工作区文件，输入框只留一个 `@` 引用。
 
-[English](./README_EN.md) · [MIT License](./LICENSE)
+> 简体中文 | [English](./README_EN.md)
+
+> [MIT License](./LICENSE)
 
 在输入框工具栏加一个**「长文本」**按钮，点开编辑器，保存后：
 
