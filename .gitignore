@@ -14,3 +14,8 @@ Thumbs.db
 
 # Local scratch used by scripts/check.mjs
 *.log
+
+# Packaged release artifacts. The market's `tarball:` field points at the asset
+# attached to a GitHub Release, never at a committed file, so a stray `npm pack`
+# output in the working tree must not be committable.
+*.tgz
