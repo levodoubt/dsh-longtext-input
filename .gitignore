@@ -19,3 +19,6 @@ Thumbs.db
 # attached to a GitHub Release, never at a committed file, so a stray `npm pack`
 # output in the working tree must not be committable.
 *.tgz
+
+# npm's local cache directory when this plugin is packed/installed in place
+.npm-cache/
