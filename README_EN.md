@@ -3,6 +3,7 @@
 > A DeepSeek Harness plugin that moves long text out of the chat and into a workspace file, leaving a single `@` reference in the composer.
 
 > [简体中文](./README.md) | English
+
 > [MIT License](./LICENSE)
 
 It adds a **Long text** button to the composer toolbar. Click it, write or paste into the editor, and on save:
