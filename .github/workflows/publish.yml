@@ -1,0 +1,61 @@
+# Publish to npm from a GitHub Release.
+#
+# Authentication is OIDC (npm trusted publishing): no long-lived npm token is
+# stored anywhere. npm mints a short-lived, workflow-specific credential by
+# exchanging GitHub's OIDC token, and because this runs from a public
+# repository it also attaches a provenance attestation automatically.
+#
+# The trusted publisher is configured on npmjs.com, not here:
+#   https://www.npmjs.com/package/dsh-longtext-input/access
+#   → Trusted Publisher → GitHub Actions
+#     Organization or user : levodoubt
+#     Repository           : dsh-longtext-input
+#     Workflow filename    : publish.yml
+#     Allowed actions      : npm publish
+# All four are case-sensitive and must match exactly, or npm answers with a 404
+# at publish time. npm does not validate the form when you save it.
+#
+# Requires npm >= 11.5.1 and Node >= 22.14 for the OIDC exchange; the runner's
+# bundled npm is upgraded below so this holds regardless of the Node image.
+#
+# NOTE: this workflow cannot create a package's FIRST version — npm does not
+# support initial publication over OIDC (npm/cli#8544). 1.0.0 was bootstrapped
+# once by hand; every release after that goes through here.
+
+name: Publish to npm
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write # required for the OIDC exchange with npm
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          registry-url: 'https://registry.npmjs.org'
+          package-manager-cache: false # never cache in a release build
+
+      # Trusted publishing needs npm >= 11.5.1.
+      - name: Use the latest npm
+        run: npm install -g npm@latest
+
+      # This plugin has no build step and no dependencies, so the offline check
+      # suite is the whole gate that stands between a tag and a published
+      # artifact.
+      - name: Run the check suite
+        run: node scripts/check.mjs
+
+      # No NODE_AUTH_TOKEN: npm detects the OIDC environment itself. Provenance
+      # is generated automatically for a public repo + public package.
+      - name: Publish
+        run: npm publish --access public
