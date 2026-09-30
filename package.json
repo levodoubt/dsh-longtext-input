@@ -28,7 +28,6 @@
     "lib",
     "cordis.patch.yml",
     "screenshots.json",
-    ".image",
     "README.md",
     "README_EN.md",
     "CHANGELOG.md",
