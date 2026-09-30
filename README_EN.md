@@ -48,13 +48,37 @@ DSH's `setDraft()` rebuilds the editor as plain-text paragraphs; it does not cre
 
 Requires **DSH ≥ 0.1.5-rc.1** (web profile).
 
+### From npm (recommended)
+
 ```powershell
-dsh plugin --profile web add "D:/path/to/dsh-longtext-input"
+dsh plugin --profile web add dsh-longtext-input
 ```
 
-`dsh plugin add` automatically appends any dependency declaring `dsh.bundle.patch` to `dsh.profile.bundles`, so no config editing is needed. It installs as a **link** dependency, so source edits need no reinstall.
+This installs a prebuilt artifact: no build step, no runtime dependencies, and it honours the npm registry or mirror you have configured.
 
-**DSH must be restarted afterwards** — the Host half only loads on a fresh process.
+### From the GitHub source
+
+```powershell
+dsh plugin --profile web add github:levodoubt/dsh-longtext-input
+```
+
+### From a local checkout (development only)
+
+```powershell
+dsh plugin --profile web add <path-to-your-checkout>
+```
+
+This installs a **link** dependency, so edits under `lib/` take effect without reinstalling — at the cost of binding your profile to that directory: **moving or deleting it makes DSH fail to start**. Use one of the two options above for normal use.
+
+### Common notes
+
+`dsh plugin add` automatically appends any dependency declaring `dsh.bundle.patch` to `dsh.profile.bundles`, so no config editing is needed. **DSH must be restarted afterwards** — the Host half only loads on a fresh process.
+
+### Version compatibility
+
+This plugin declares the host versions it supports through `dsh.compatibility.dsh` (`>=0.1.5-rc.1`), the field the [plugin storefront](https://awesome-dsh-plugin.com) reads to display compatibility.
+
+It deliberately declares **no `peerDependencies` on `@deepseek-ai/*`**: it imports none of those packages and relies only on DSH's own bundle, client-module and slot machinery. DSH validates every `@deepseek-ai/dsh*` peer range and, on a mismatch, warns that the plugin "may cause crashes or data loss" and requires a per-version exemption. Declaring peers for packages a plugin does not actually depend on would only cost users that warning and that manual step.
 
 ## Uninstall
 

@@ -48,14 +48,37 @@ DSH 的 `setDraft()` 按纯文本段落重建编辑器，不生成引用芯片�
 
 **要求 DSH ≥ 0.1.5-rc.1**（web profile）。
 
+### 从 npm 安装（推荐）
+
 ```powershell
-# 从本地检出安装
-dsh plugin --profile web add "D:/path/to/dsh-longtext-input"
+dsh plugin --profile web add dsh-longtext-input
 ```
 
-`dsh plugin add` 会自动把声明了 `dsh.bundle.patch` 的依赖追加进 `dsh.profile.bundles`，无需手改配置。装的是 **link 依赖**，所以改完源码不用重装。
+装的是预构建产物：无需构建步骤、无运行时依赖，也会走你配置的 npm 镜像（国内可直连）。
 
-**装完必须重启 DSH** —— Host 半只有重启才装载。
+### 从 GitHub 源码安装
+
+```powershell
+dsh plugin --profile web add github:levodoubt/dsh-longtext-input
+```
+
+### 本地检出安装（仅开发用）
+
+```powershell
+dsh plugin --profile web add <你的检出路径>
+```
+
+装的是 **link 依赖**，改完 `lib/` 即时生效，不用重装 —— 代价是 profile 会绑定那个目录，**移动或删除该目录会导致 DSH 无法启动**。日常使用请用上面两种。
+
+### 共同说明
+
+`dsh plugin add` 会自动把声明了 `dsh.bundle.patch` 的依赖追加进 `dsh.profile.bundles`，无需手改配置。**装完必须重启 DSH** —— Host 半只有重启才装载。
+
+### 版本兼容性
+
+本插件通过 `dsh.compatibility.dsh` 声明支持的宿主版本（`>=0.1.5-rc.1`），这是[插件市场](https://awesome-dsh-plugin.com)用于展示兼容性的字段。
+
+本插件**不声明 `@deepseek-ai/*` 的 `peerDependencies`**，这是有意为之：它不 import 任何官方包，只依赖 DSH 自身的 bundle / 客户端模块 / 槽位机制。DSH 会对每个 `@deepseek-ai/dsh*` peer 范围做校验，不匹配时提示"may cause crashes or data loss"并要求逐版本豁免；对一个并不真正依赖这些包的插件声明 peer，只会给用户带来无谓的告警与豁免操作。
 
 ## 卸载
 
